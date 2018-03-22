@@ -1,3 +1,33 @@
 /*.states :hover {
   fill: red;
 }*/
+
+path:hover {
+  fill-opacity: .7;
+}
+
+div.tooltip {
+ 	position: absolute;
+	text-align: center;
+	width: 140px;
+	height: 40px;
+	padding: 2px;
+	font: 12px sans-serif;
+	background: white;
+	border: 50px;
+	border-radius: 8px;
+	pointer-events: none;
+}
+
+div.summaryBox {
+ 	position: absolute;
+	text-align: left;
+	width: 300px;
+	height: 60px;
+	padding: 2px;
+	font: 12px sans-serif;
+	background: white;
+	border: 0px;
+	border-radius: 8px;
+	pointer-events: none;
+}
