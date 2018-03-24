@@ -1,3 +1,7 @@
+body {
+  background-color: #e1e5ed;
+}
+
 path:hover {
   fill-opacity: .7;
 }
@@ -45,13 +49,46 @@ div.pieDiv {
   position: absolute;
   text-align: left;
   width: 200px;
-  height: 300px;
+  height: 250px;
   padding: 2px;
   font: 12px sans-serif;
   background: white;
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+}
+
+div.article-text > p {
+  font: 17px sans-serif;
+  margin-bottom: 1em;
+}
+
+div.article-body {
+  display: block;
+  text-align: left;
+  padding: 20px;
+  margin: 20px;
+}
+
+div.article-text {
+  display: block;
+  text-align: left;
+  /*padding-left: 50px;
+  padding-right: 50px;
+  width: 80%;*/
+}
+
+img.article-image {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  display: block;
+}
+
+#viz {
+  margin-top: 30px;
+  margin-bottom: 140px;
 }
 
 .arc text {

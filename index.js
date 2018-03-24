@@ -63,29 +63,32 @@ function createMap(year, allYears) {
 
   let path = d3.geoPath().projection(projection);
 
-  let svg = d3.select('body')
+  let svg = d3.select('#viz')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
 
-  let tooltip = d3.select('body')
+  let tooltip = d3.select('#viz')
 		    .append('div')
+        .attr('id', 'tooltip')
     		.attr('class', 'tooltip')
     		.style('opacity', 0);
 
-  let summaryBox = d3.select('body')
+  let summaryBox = d3.select('#viz')
         .append('div')
+        .attr('id', 'summaryBox')
         .attr('class', 'summaryBox')
         .style('opacity', 0)
         .style('left', '1000px')
-        .style('top', '200px');
+        .style('top', '1300px');
 
-  let pieDiv = d3.select('body')
+  let pieDiv = d3.select('#viz')
         .append('div')
+        .attr('id', 'pieDiv')
         .attr('class', 'pieDiv')
         .style('opacity', 1)
         .style('left', '1000px')
-        .style('top', '200px');
+        .style('top', '1250px');
 
   d3.json('./data/us-states.json', json => {
     if (groupYears.includes(year)) {
@@ -208,7 +211,14 @@ function createMap(year, allYears) {
       .attr('r', d => {
         return Math.sqrt(d.Total_Victims) * 1.5;
       })
-      .style('fill', rgb(32, 32, 32))
+      .style('fill', d => {
+        switch(d.Gender) {
+          case 'M': return rgb(6, 55, 135);
+          case 'F': return rgb(155, 0, 150);
+          default: return rgb(32, 32, 32);
+        }
+      })
+      // .style('fill', rgb(32, 32, 32))
       .style('opacity', 0.75)
       .on('mouseover', d => {
         tooltip.transition()
@@ -246,8 +256,6 @@ function createMap(year, allYears) {
           </ul>
           `
         )
-        .style('left', '1000px')
-        .style('top', '200px')
         .style('opacity', 1);
         pieDiv.style('opacity', 0);
       });
@@ -403,15 +411,27 @@ function loadYear(year, allYears) {
   const maxYear = Math.max(...allYears);
 
   d3.selectAll('svg').remove();
-  d3.selectAll('div').remove();
+  d3.select('#buttonDiv').remove();
+  d3.select('#tooltip').remove();
+  d3.select('#summaryBox').remove();
+  d3.select('#pieDiv').remove();
 
-  d3.select('body').append('div').selectAll('button')
+  let buttonDiv = d3.select('#viz').append('div').attr('id', 'buttonDiv');
+
+  buttonDiv.selectAll('button')
     .data(allYears)
     .enter()
     .append('button')
     .attr('type', 'button')
     .attr('class', d => {
-      return (d === year) ? 'btn btn-danger' : 'btn btn-primary';
+      if (d === year) {
+        return 'btn btn-danger';
+      } else if (groupYears.includes(d)) {
+        return 'btn btn-primary';
+      } else {
+        return 'btn btn-primary';
+      }
+      // return (d === year) ? 'btn btn-danger' : 'btn btn-primary';
     })
     .style('margin', '0.2%')
     .on('click', d => {
@@ -420,6 +440,35 @@ function loadYear(year, allYears) {
     .text(d => {
       return getYearText(d);
     });
+
+  // for (let i = 0; i < allYears.length; i++) {
+  //   const d = allYears[i];
+  //   if (d === 1971 || d === 1982 || d === 1990 || d === 2000 || d === 2010) {
+  //     buttonDiv.append('br');
+  //   } else if (d === -1) {
+  //     buttonDiv.append('br');
+  //     buttonDiv.append('br');
+  //   }
+  //   buttonDiv.append('button')
+  //     .attr('type', 'button')
+  //     .attr('class', () => {
+  //       if (d === year) {
+  //         return 'btn btn-danger';
+  //       } else if (groupYears.includes(d)) {
+  //         return 'btn btn-primary';
+  //       } else {
+  //         return 'btn btn-primary';
+  //       }
+  //       // return (d === year) ? 'btn btn-danger' : 'btn btn-primary';
+  //     })
+  //     .style('margin', '0.2%')
+  //     .on('click', () => {
+  //       loadYear(d, allYears);
+  //     })
+  //     .text(() => {
+  //       return getYearText(d);
+  //     });
+  // }
   createMap(year, allYears);
 }
 
